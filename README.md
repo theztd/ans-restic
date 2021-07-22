@@ -69,6 +69,7 @@ ansible-galaxy install arillso.restic
 | `restic_install_path`  | `'/usr/local/bin'`                  | Install location for the restic binary                                      |
 | `restic_script_dir`    | `'/opt/restic'`                        | Location of the generated backup scripts                                    |
 | `restic_log_dir`       | `'{{ restic_script_dir }}/log'`     | Location of the logs of the backup scripts                                  |
+| `metrics_dir`          | `undefined`                         | Textfile collector path if you use prometheus node_exporter                 |
 | `restic_repos`         | `{}`                                | A dictionary of repositories where snapshots are stored                     |
 | `restic_backups`       | `{}` (or `[]`)                      | A list of dictionaries specifying the files and directories to be backed up |
 | `restic_create_cron`   | `false`                             | Should a cronjob be created for each backup                                 |

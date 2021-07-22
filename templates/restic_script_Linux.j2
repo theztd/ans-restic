@@ -3,6 +3,13 @@
 # Backup script for {{ item.src|default('stdin') }}
 # Use this file to create a Backup and prune existing data with one execution.
 
+{% if metrics_dir is defined %}
+echo "restic_backup_running{backup_job=\"{{ item.name }}\"} 1" > {{ metrics_dir }}/restic_running_{{ item.name }}.prom
+{% endif %}
+
+echo "restic_backup_stats"
+
+
 {% if item.disable_logging is defined and item.disable_logging %}
 {% set backup_result_log, backup_output_log = "/dev/null", "/dev/null" %}
 {% set forget_result_log, forget_output_log = "/dev/null", "/dev/null" %}
@@ -126,7 +133,15 @@ fi
     {% if item.exclude is defined %}{{ exclude(item.exclude) }}{% endif %} \
     $@ \
 {% endif %} | tee {{ backup_output_log }}
-if [[ $? -eq 0 ]]
+
+restic_ret=$?
+
+{% if metrics_dir is defined %}
+echo "restic_backup_running{backup_job=\"{{ item.name }}\"} 0" > {{ metrics_dir }}/restic_running_{{ item.name }}.prom
+echo "restic_backup_status{backup_job=\"{{ item.name }}\"} $restic_ret" > {{ metrics_dir }}/restic_status_{{ item.name }}.prom
+{% endif %}
+
+if [[ $restic_ret -eq 0 ]]
 then
     echo "$(date -u '+%Y-%m-%d %H:%M:%S') OK" >> {{ backup_result_log }}
 else
