@@ -36,5 +36,5 @@
 
 - name: Configure prometheus metrics
   include_tasks: prometheus.yml
-  when: metrics_dir|bool
+  when: metrics_dir is defined
   

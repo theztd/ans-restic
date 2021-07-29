@@ -5,6 +5,7 @@ from os import path
 from time import time
 from sys import argv
 import json
+from json.decoder import JSONDecodeError
 
 def logI(msg):
     print("INFO: ", msg)
@@ -30,6 +31,9 @@ def restic_get_summary(file_path):
         logE(err)
         return {}
 
+    except JSONDecodeError as err:
+        logE("JSONDecodeError " + str(err))
+        return {}
 
 
 if __name__ == "__main__":
@@ -37,8 +41,9 @@ if __name__ == "__main__":
     file_age = file_age_in_min(argv[2])
 
     # if the source file is newer than 3O minutes regenerate snapshot stats
-    if file_age < 30:
-        data = restic_get_summary(argv[2])
+    # if file_age < 30:
+    data = restic_get_summary(argv[2])
+    if data != {}:
         print(f"""# Restic last snapshot stats
 restic_stats_backup_duration{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['total_duration']}
 restic_stats_data_added{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['data_added']}

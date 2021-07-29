@@ -2,7 +2,7 @@
 - name: Metrics - deploy scripts
   copy:
     src: "{{ item }}"
-    dest: "/usr/local/bin/{{ item }}"
+    dest: "{{ restic_script_dir }}/{{ item }}"
     mode: 0755
   with_items:
   - restic_stats.py
@@ -11,6 +11,6 @@
 - name: Metrics - schedule run via crontab
   cron:
     name: restic metrics
-    command: /usr/local/bin/restic_stats.sh &> /dev/null
-    minute: */10
+    job: "{{ restic_script_dir }}/restic_stats.sh {{ restic_log_dir }} {{ metrics_dir }} &> /dev/null"
+    minute: "*/10"
 
