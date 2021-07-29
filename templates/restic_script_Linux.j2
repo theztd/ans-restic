@@ -128,7 +128,7 @@ fi
     {% if item.exclude is defined %}{{ exclude(item.exclude) }}{% endif %} \
     $@ \
 {% else %}
-  {{ restic_install_path }}/restic backup $BACKUP_SOURCE $MODE_TAG \
+  {{ restic_install_path }}/restic --json backup $BACKUP_SOURCE $MODE_TAG \
     {{ tags(item.tags) }} \
     {% if item.exclude is defined %}{{ exclude(item.exclude) }}{% endif %} \
     $@ \
