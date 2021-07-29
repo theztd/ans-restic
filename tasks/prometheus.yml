@@ -6,7 +6,7 @@
     mode: 0755
   with_items:
   - restic_stats.py
-  - restis_stats.sh
+  - restic_stats.sh
 
 - name: Metrics - schedule run via crontab
   cron:
