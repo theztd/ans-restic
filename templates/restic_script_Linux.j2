@@ -121,7 +121,7 @@ else
 fi
 
 {% if item.stdin is defined and item.stdin == true %}
-  {{ item.stdin_cmd }} | {{ restic_install_path }}/restic backup \
+  {{ item.stdin_cmd }} | {{ restic_install_path }}/restic --json backup \
     --stdin $MODE_TAG \
     {{ tags(item.tags) }} \
     {{ stdin_filename(item.stdin_filename) }} \
@@ -137,6 +137,10 @@ fi
 restic_ret=$?
 
 {% if metrics_dir is defined %}
+
+# Copy summary to dedicated file
+grep '"message_type":"summary"' {{ backup_output_log }} > /var/log/restic/summary-{{ item.name }}.json
+
 echo "restic_backup_running{backup_job=\"{{ item.name }}\"} 0" > {{ metrics_dir }}/restic_running_{{ item.name }}.prom
 echo "restic_backup_status{backup_job=\"{{ item.name }}\"} $restic_ret" > {{ metrics_dir }}/restic_status_{{ item.name }}.prom
 {% endif %}

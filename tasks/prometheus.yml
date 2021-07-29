@@ -1,0 +1,16 @@
+---
+- name: Metrics - deploy scripts
+  copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+  with_items:
+  - restic_stats.py
+  - restis_stats.sh
+
+- name: Metrics - schedule run via crontab
+  cron:
+    name: restic metrics
+    command: /usr/local/bin/restic_stats.sh &> /dev/null
+    minute: */10
+

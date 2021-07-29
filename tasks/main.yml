@@ -1,12 +1,12 @@
 ---
-- name: add OS specific variables
+- name: Add OS specific variables
   ansible.builtin.include_vars: "{{ lookup('first_found', restic_os_variables) }}"
 
-- name: perform versionscheck
+- name: Perform versionscheck
   ansible.builtin.include_tasks: 'versioncheck.yml'
   when: submodules_versioncheck|bool
 
-- name: make sure restic is available
+- name: Make sure restic is available
   ansible.builtin.include_tasks: 'preperation.yml'
 
 - name: Install restic
@@ -16,7 +16,7 @@
 - name: Configure restic
   ansible.builtin.include_tasks: 'configure.yml'
 
-- name: create backup script
+- name: Create backup script
   ansible.builtin.include_tasks: 'backup.yml'
   loop_control:
     loop_var: loop_distribution
@@ -25,7 +25,7 @@
     distribution_version: '{{ ansible_distribution_version }}'
     distribution_major_version: '{{ ansible_distribution_major_version }}'
 
-- name: create restic systemd timer
+- name: Create restic systemd timer
   ansible.builtin.include_tasks: 'timer.yml'
   loop_control:
     loop_var: loop_distribution
@@ -33,3 +33,8 @@
     distribution: '{{ ansible_distribution }}'
     distribution_version: '{{ ansible_distribution_version }}'
     distribution_major_version: '{{ ansible_distribution_major_version }}'
+
+- name: Configure prometheus metrics
+  include_tasks: prometheus.yml
+  when: metrics_dir|bool
+  
