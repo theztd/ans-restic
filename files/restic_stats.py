@@ -45,17 +45,28 @@ if __name__ == "__main__":
     data = restic_get_summary(argv[2])
     if data != {}:
         print(f"""# Restic last snapshot stats
+# TYPE restic_stats_backup_duration gauge
 restic_stats_backup_duration{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['total_duration']}
+# TYPE restic_stats_data_added gauge
 restic_stats_data_added{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['data_added']}
+# TYPE restic_stats_bytes_processed gauge
 restic_stats_bytes_processed{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['total_bytes_processed']}
+# TYPE restic_stats_files_unmodified gauge
 restic_stats_files_unmodified{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['files_unmodified']}
+# TYPE restic_stats_files_changed gauge
 restic_stats_files_changed{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['files_changed']}
+# TYPE restic_stats_files_new gauge
 restic_stats_files_new{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['files_new']}
+# TYPE restic_stats_dirs_unmodified gauge
 restic_stats_dirs_unmodified{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['dirs_unmodified']}
+# TYPE restic_stats_dirs_changed gauge
 restic_stats_dirs_changed{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['dirs_changed']}
+# TYPE restic_stats_dirs_new gauge
 restic_stats_dirs_new{{backup_job="{job_name}", snapshot_id="{data['snapshot_id']}"}} {data['dirs_new']}
         """)
 
     print(f"""# Restic general stats
+# HELP restic_stats_last_snapshot_age Age of latest snapshot in minutes
+# TYPE restic_stats_last_snapshot_age counter
 restic_stats_last_snapshot_age{{backup_job="{job_name}"}} {file_age}
 """)
