@@ -6,11 +6,10 @@
     mode: 0755
   with_items:
   - restic_stats.py
-  - restic_stats.sh
 
 - name: Metrics - schedule run via crontab
   cron:
     name: restic metrics
-    job: "{{ restic_script_dir }}/restic_stats.sh {{ restic_log_dir }} {{ metrics_dir }} &> /dev/null"
+    job: "{{ restic_script_dir }}/restic_stats.py {{ metrics_dir }}/summary-*.json > {{ restic_log_dir }}/restic_stats.prom &> /dev/null"
     minute: "*/10"
 
