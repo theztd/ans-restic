@@ -11,5 +11,5 @@
   cron:
     name: restic metrics
     job: "{{ restic_script_dir }}/restic_stats.py {{ restic_log_dir }}/summary-*.json > {{ metrics_dir }}/restic_stats.prom &> /dev/null"
-    minute: "*/10"
+    minute: "*/5"
 
