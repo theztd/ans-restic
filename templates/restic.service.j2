@@ -5,6 +5,8 @@ Description=Backup {{ item.name }} using restic
 Type=oneshot
 ExecStart={{ restic_script_dir }}/backup-{{ item.name }}.sh
 TimeoutStartSec=60
+# Decrease priority of the process
+Nice=15
 # 3 hours
 TimeoutSec=10800
 Environment="CRON=true"

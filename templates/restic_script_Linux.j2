@@ -3,6 +3,13 @@
 # Backup script for {{ item.src|default('stdin') }}
 # Use this file to create a Backup and prune existing data with one execution.
 
+
+if (( $(df / --output=pcent | grep -v "Use" | xargs | sed 's/\%//g') > 90 )); then
+    echo "Please give me more empty space..."
+    exit 1
+fi
+
+
 {% if metrics_dir is defined %}
 echo "restic_backup_running{backup_job=\"{{ item.name }}\"} 1" > {{ metrics_dir }}/restic_running_{{ item.name }}.prom
 {% endif %}
