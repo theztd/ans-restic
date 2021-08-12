@@ -6,7 +6,8 @@
 
 if (( $(df / --output=pcent | grep -v "Use" | xargs | sed 's/\%//g') > 90 )); then
     echo "Please give me more empty space..."
-    exit 1
+    echo "restic_backup_status{backup_job=\"{{ item.name }}\"} 3" > {{ metrics_dir }}/restic_status_{{ item.name }}.prom
+    exit 3
 fi
 
 

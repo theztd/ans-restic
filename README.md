@@ -2,10 +2,6 @@
 
 > **Beta:** This role is in beta status.
 
-[![🎭 Tests](https://github.com/roles-ansible/ansible_role_restic/actions/workflows/test.yml/badge.svg)](https://github.com/roles-ansible/ansible_role_restic/actions/workflows/test.yml)
-[![license](https://raw.githubusercontent.com/roles-ansible/ansible_role_restic/main/.github/license.svg)](https://github.com/roles-ansible/ansible_role_restic/blob/main/LICENSE)
-[![Ansible Galaxy](https://raw.githubusercontent.com/roles-ansible/ansible_role_restic/main/.github/galaxy.svg)](https://galaxy.ansible.com/do1jlr/restic)
-
 ## Description
 [Restic](https://github.com/restic/restic) is a versatile Go based backup
 solution which supports multiple backends, deduplication and incremental
@@ -38,6 +34,18 @@ simply appending them:
 ```bash
 $ /path/to/backup/script/backup-example.sh --tag deployment
 ```
+
+
+### Prometheus metrics
+
+```
+restic_backup_status{backup_job="job_name"} STATE
+```
+STATE codes:
+  * 0 ... everything is ok
+  * 1 ... any problem
+  * 3 ... no space on device
+
 
 ### CRON / Scheduled Tasks
 In order to make use of defined backups, they can be automatically setup as
