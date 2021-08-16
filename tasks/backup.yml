@@ -34,3 +34,11 @@
     - item.src is defined or item.stdin is defined
     - item.src is defined or item.stdin and item.stdin_cmd is defined
     - item.repo in restic_repos
+
+- name: Configure logrotate
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.d/restic.conf
+    mode: '0640'
+  when:
+  - logrotate
