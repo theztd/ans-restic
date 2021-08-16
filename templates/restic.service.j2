@@ -7,6 +7,8 @@ ExecStart={{ restic_script_dir }}/backup-{{ item.name }}.sh > /dev/null
 TimeoutStartSec=60
 # Decrease priority of the process
 Nice=15
+# Be less verbose in logs
+StandardOutput=null
 # 3 hours
 TimeoutSec=10800
 Environment="CRON=true"
