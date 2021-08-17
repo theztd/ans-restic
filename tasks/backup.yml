@@ -40,5 +40,5 @@
     src: logrotate.conf.j2
     dest: /etc/logrotate.d/restic.conf
     mode: '0640'
-  when:
+  tags:
   - logrotate
