@@ -100,22 +100,22 @@ set -uxo pipefail
     {% endif %}
     {% if exclude.exclude is defined %}
         {% for path in exclude.exclude %}
-            --exclude {{ path }} \
+            --exclude '{{ path }}' \
         {% endfor %}
     {% endif %}
     {% if exclude.iexclude is defined %}
         {% for path in exclude.iexclude %}
-            --iexclude {{ path }} \
+            --iexclude '{{ path }}' \
         {% endfor %}
     {% endif %}
     {% if exclude.exclude_file is defined %}
         {% for path in exclude.exclude_file %}
-            --exclude-file {{ path }} \
+            --exclude-file '{{ path }}' \
         {% endfor %}
     {% endif %}
     {% if exclude.exclude_if_present is defined %}
         {% for path in exclude.exclude_if_present %}
-            --exclude-if-present {{ path }} \
+            --exclude-if-present '{{ path }}' \
         {% endfor %}
     {% endif %}
 {% endmacro %}
